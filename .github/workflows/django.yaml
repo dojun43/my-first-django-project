@@ -11,13 +11,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Run Tests
-        env:
-          # GitHub Secrets 사용
-          EC2_PRIVATE_SECRET: ${{ secrets.EC2_PRIVATE_SECRET }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
+      env:
+        # GitHub Secrets 사용
+        EC2_PRIVATE_SECRET: ${{ secrets.EC2_PRIVATE_SECRET }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
       run: |
         echo "EC2 deploy start"
         echo "${EC2_PRIVATE_SECRET}" > ec2-private-key.pem

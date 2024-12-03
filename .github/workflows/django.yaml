@@ -1,12 +1,32 @@
 name: EC2 deploy
+
 on:
   push:
     branches: [ "main" ]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
     - name: Run Tests
+        env:
+          # GitHub Secrets 사용
+          EC2_PRIVATE_SECRET: ${{ secrets.EC2_PRIVATE_SECRET }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
       run: |
-        echo "hello world"
+        echo "EC2 deploy start"
+        echo "${EC2_PRIVATE_SECRET}" > ec2-private-key.pem
+        chmod 400 ec2-private-key.pem
+        ssh -o StrictHostKeyChecking=no -i ec2-private-key.pem ${{ env.EC2_CONNECTION_STRING }} << 'EOF'
+          echo "DB_NAME=${DB_NAME}" >> .env
+          echo "DB_USER=${DB_USER}" >> .env
+          echo "DB_PASSWORD=${DB_PASSWORD}" >> .env
+          echo "DB_HOST=${DB_HOST}" >> .env
+          echo 'export $(cat .env | xargs)' >> ~/.bashrc
+          "bash -s" < runserver.sh
+        EOF

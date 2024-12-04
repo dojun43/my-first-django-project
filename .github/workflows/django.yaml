@@ -30,10 +30,10 @@ jobs:
         # 환경 변수 설정
         ssh -o StrictHostKeyChecking=no -i ec2-private-key.pem ${EC2_USER}@${EC2_HOST} << 'EOF'
           sudo rm .env
-          echo "DB_NAME=${DB_NAME}" > .env
-          echo "DB_USER=${DB_USER}" > .env
-          echo "DB_PASSWORD=${DB_PASSWORD}" > .env
-          echo "DB_HOST=${DB_HOST}" > .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" > .env
+          echo "DB_USER=${{ secrets.DB_USER }}" > .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
         EOF
         
         # 배포 스크립트 실행

@@ -16,7 +16,7 @@ jobs:
         EC2_PRIVATE_SECRET: ${{ secrets.EC2_PRIVATE_SECRET }}
         EC2_USER: "ubuntu"
         EC2_HOST: ${{ secrets.EC2_HOST }}
-        
+
       run: |
         echo "EC2 deploy start"
 
@@ -27,10 +27,10 @@ jobs:
         # 환경 변수 설정
         ssh -o StrictHostKeyChecking=no -i ec2-private-key.pem ${EC2_USER}@${EC2_HOST} << 'EOF'
           sudo rm .env  
-          echo "DB_NAME=${{ secrets.DB_NAME }}" > .env
-          echo "DB_USER=${{ secrets.DB_USER }}" > .env
-          echo "DB_PASSWORD=${{ secrets.DB_USER }}" > .env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_USER }}" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
         EOF
         
         # 배포 스크립트 실행

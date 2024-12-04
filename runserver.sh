@@ -12,6 +12,15 @@ else # 없으면
   cd django-tutorial
 fi
 
+# python3.12-venv 없으면 설치
+if dpkg -l | grep -q "python3.12-venv"; then
+        echo "python3.12-venv is already installed."
+else
+        sudo apt update
+        sudo apt install -y python3.12-venv
+        echo "python3.12-venv is installed."
+fi
+
 # 가상 환경 설정
 rm -rf .venv # 기존에 설치한 가상 환경 있으면 있으면 삭제
 python3 -m venv .venv

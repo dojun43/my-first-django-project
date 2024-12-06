@@ -8,7 +8,7 @@ if [ -d $HOME/django-tutorial ]; then
   git pull origin main
 else # 없으면
   # git repository로부터 파일을 clone
-  git clone https://github.com/gotoweb/django-tutorial/
+  git clone https://github.com/dojun43/my-first-django-project.git
   cd django-tutorial
 fi
 

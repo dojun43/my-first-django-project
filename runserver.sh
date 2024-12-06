@@ -2,14 +2,14 @@
 date > current_time.txt
 
 # 해당 디렉터리가 있으면
-if [ -d $HOME/django-tutorial ]; then
+if [ -d $HOME/my-first-django-project ]; then
   # git pull
-  cd django-tutorial
+  cd my-first-django-project
   git pull origin main
 else # 없으면
   # git repository로부터 파일을 clone
   git clone https://github.com/dojun43/my-first-django-project.git
-  cd django-tutorial
+  cd my-first-django-project
 fi
 
 # python3.12-venv 없으면 설치

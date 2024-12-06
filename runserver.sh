@@ -27,7 +27,6 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # 종속성 설치
-chmod +x runserver.sh
 pip3 install -r requirements.txt
 
 # 종속성 설치 확인

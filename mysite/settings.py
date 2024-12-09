@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,7 +71,6 @@ extra_trusted_origin = os.getenv("CSRF_TRUSTED_ORIGIN")
 if extra_trusted_origin:
     CORS_ALLOWED_ORIGINS.append(extra_trusted_origin)
     CSRF_TRUSTED_ORIGINS.append(extra_trusted_origin)
-
 
 CORS_ALLOW_METHODS = (
     "DELETE",

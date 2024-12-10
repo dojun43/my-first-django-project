@@ -20,6 +20,9 @@ jobs:
       EC2_HOST: ${{ secrets.EC2_HOST }}
 
     steps:
+    - name: git checkout
+      uses: actions/checkout@v4
+
     - name: create pemkey
       run: |
         # pem key 생성

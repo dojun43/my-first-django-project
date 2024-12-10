@@ -5,25 +5,29 @@ on:
     branches: [ "main" ]
 
 jobs:
+  pre-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: pre step 1
+      run: echo "pre step 1 happens"
+
   deploy:
     runs-on: ubuntu-latest
+    env:
+      # GitHub Secrets 사용
+      EC2_PRIVATE_SECRET: ${{ secrets.EC2_PRIVATE_SECRET }}
+      EC2_USER: "ubuntu"
+      EC2_HOST: ${{ secrets.EC2_HOST }}
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Run Tests
-      env:
-        # GitHub Secrets 사용
-        EC2_PRIVATE_SECRET: ${{ secrets.EC2_PRIVATE_SECRET }}
-        EC2_USER: "ubuntu"
-        EC2_HOST: ${{ secrets.EC2_HOST }}
-
+    - name: create pemkey
       run: |
-        echo "EC2 deploy start"
-
         # pem key 생성
         echo "${EC2_PRIVATE_SECRET}" > ec2-private-key.pem
         chmod 400 ec2-private-key.pem
 
+    - name: create .env
+      run: |
         # 환경 변수 설정
         ssh -o StrictHostKeyChecking=no -i ec2-private-key.pem ${EC2_USER}@${EC2_HOST} << 'EOF'
           echo "DB_NAME=${{ secrets.DB_NAME }}" > .env
@@ -31,6 +35,8 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
         EOF
-        
+
+    - name: runserver
+      run: |
         # 배포 스크립트 실행
         ssh -o StrictHostKeyChecking=no -i ec2-private-key.pem ${EC2_USER}@${EC2_HOST} "bash -s" < runserver.sh

@@ -33,6 +33,7 @@ jobs:
           python manage.py test
 
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     env:
       # GitHub Secrets 사용
